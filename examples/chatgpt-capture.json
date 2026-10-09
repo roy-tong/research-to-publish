@@ -1,0 +1,8 @@
+{
+  "format": "chatgpt-capture-v1",
+  "url": "https://chatgpt.com/c/synthetic-demo",
+  "title": "Synthetic example, not a real conversation",
+  "method": "synthetic-fixture",
+  "coverage": "excerpt",
+  "text": "用户提出：希望从研究材料派生三个平台的内容。助手建议：先整理证据，再根据读者需求分别写作。此处是合成测试，不是已登录会话的采集记录。"
+}
