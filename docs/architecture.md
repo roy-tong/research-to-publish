@@ -18,6 +18,12 @@ CLI 自动化来源管理与构建；agent/作者承担研究和编辑；网站�
 
 生成数据保存在 `builds/topic/fingerprint/`，相同输入可重建。对本地原文件，validate/status 检测是否变化；对 GitHub 和 ChatGPT，需要主动更新导入版本。sources 旧快照和元数据保留在源ID目录。
 
+## v0.2 的增量状态
+
+Topic 的 channels 为可选字段，缺失时兼容三个渠道。routing_history 保留渠道决策。feedback.json 保存私有编辑反馈与操作者处理记录；打开的 counterevidence 阻止该专题审核和导出，处理后必须重新审核。status 区分内容版本变化需修订与反证打开需复核；impact 汇总依赖关系。详见 [反馈](feedback.md)。
+
+渲染器版本 3 使旧审核指纹失效，旧数据保留；不修改 workspace schema。
+
 ## 公开边界
 
 代码仓库只保存工具、文档与合成例子。公开交付包不包含私有来源 origin、原始快照或证据引文；保留文章明确选定的公开参考链接。文章正文是否可公开仍由真实编辑复核，结构检查不能代替。

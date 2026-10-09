@@ -25,6 +25,19 @@ def main():
     topic.add_argument('--title', required=True)
     topic.add_argument('--question', required=True)
     topic.add_argument('--sources', nargs='+', required=True)
+    topic.add_argument('--channels', nargs='+', choices=['site', 'wechat', 'xiaohongshu'])
+    route = sub.add_parser('route')
+    route.add_argument('id')
+    route.add_argument('--channels', nargs='+', required=True, choices=['site', 'wechat', 'xiaohongshu'])
+    route.add_argument('--reason', required=True)
+    feedback = sub.add_parser('feedback-add')
+    feedback.add_argument('--file', required=True)
+    resolve = sub.add_parser('feedback-resolve')
+    resolve.add_argument('id')
+    resolve.add_argument('--decision', required=True, choices=['revised', 'no-change'])
+    resolve.add_argument('--note', required=True)
+    impact = sub.add_parser('impact')
+    impact.add_argument('--source')
     for command in ('brief', 'validate', 'build', 'status'):
         sub.add_parser(command).add_argument('id')
     review = sub.add_parser('review')
@@ -47,7 +60,17 @@ def main():
     args = p.parse_args()
     w = Workspace(args.workspace)
     try:
-        if args.command == 'init':
+        if args.command in ('route', 'feedback-add', 'feedback-resolve', 'impact'):
+            from .feedback import add, resolve, impact, route
+            if args.command == 'route':
+                result = route(w, args.id, args.channels, args.reason)
+            elif args.command == 'feedback-add':
+                result = add(w, args.file)
+            elif args.command == 'feedback-resolve':
+                result = resolve(w, args.id, args.decision, args.note)
+            else:
+                result = impact(w, args.source)
+        elif args.command == 'init':
             result = w.init()
         elif args.command == 'rasterize':
             from .cards import rasterize
@@ -61,7 +84,7 @@ def main():
                               github_path=args.path, chatgpt=args.chatgpt,
                               conversation_id=args.conversation_id, public=args.public_url)
         elif args.command == 'topic':
-            result = w.create_topic(args.id, args.title, args.question, args.sources)
+            result = w.create_topic(args.id, args.title, args.question, args.sources, args.channels)
         elif args.command == 'review':
             result = w.review(args.id, args.reviewer, args.note)
         elif args.command == 'export':

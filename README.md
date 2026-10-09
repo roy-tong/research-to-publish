@@ -32,6 +32,12 @@ flowchart LR
 - 审核绑定内容指纹，来源或稿件更新即失效；导出检查上游变更与构建篡改；网站文章不覆盖已有文件。
 - 发布回执与待修订提示；配套 Skill、合成端到端示例、测试和 GitHub Actions CI。
 
+## v0.2：补齐编辑决策与反馈
+
+支持按专题选择渠道，保留未选草稿但不强制生成三端内容。反馈可分类导入、处理和查询；未解决的反证阻止该专题审核与导出。`impact` 可跨专题查询来源复用、受影响段落和已发版本。
+
+阅读 [内容体系](docs/editorial-system.md) 与 [命令及升级说明](docs/feedback.md)。这是可追踪的人工编辑闭环，不是自动分析平台数据。
+
 ## 五分钟跑通
 
 在仓库根目录运行，无需安装：
@@ -83,7 +89,7 @@ r2p --workspace /work/editorial export my-research --to /work/releases/my-resear
 
 ## 适用边界
 
-- v0.1 是 **agent-assisted** 管线，不是无人值守写作／发帖 SaaS。
+- v0.2 是 **agent-assisted** 管线，不是无人值守写作／发帖 SaaS。
 - 输入支持 UTF-8 文本和已知 ChatGPT JSON；PDF、Word、音视频先用对应工具提取文本，保留原出处。聊天图片与附件未自动读取。
 - Chrome 采集依赖宿主 agent 的浏览器能力；不读 cookies、不调用 ChatGPT 私有 API。采集失败可接官方导出或用户摘录，必须如实标注覆盖范围。
 - 引文匹配只证明原文含有这句话，不证明它真实或能支持结论；语义、数字与公开范围仍需编辑复核。

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "research-to-publish"
-version = "0.1.0"
+version = "0.2.0"
 description = "A local-first research-to-website-to-social editorial pipeline"
 requires-python = ">=3.9"
 readme = "README.md"
