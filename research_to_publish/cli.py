@@ -20,6 +20,7 @@ def main():
     ingest.add_argument('--chatgpt', action='store_true')
     ingest.add_argument('--conversation-id')
     ingest.add_argument('--public-url')
+    ingest.add_argument('--label', help='Reader-facing reference label for public URLs')
     topic = sub.add_parser('topic')
     topic.add_argument('id')
     topic.add_argument('--title', required=True)
@@ -82,7 +83,8 @@ def main():
                 raise ValueError('--chatgpt requires --file')
             result = w.ingest(args.id, path=args.file, repo=args.github, ref=args.ref,
                               github_path=args.path, chatgpt=args.chatgpt,
-                              conversation_id=args.conversation_id, public=args.public_url)
+                              conversation_id=args.conversation_id, public=args.public_url,
+                              label=args.label)
         elif args.command == 'topic':
             result = w.create_topic(args.id, args.title, args.question, args.sources, args.channels)
         elif args.command == 'review':

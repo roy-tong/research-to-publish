@@ -126,3 +126,24 @@ class EditorialLoopTest(unittest.TestCase):
         add(self.w, self.feedback())
         self.assertEqual(len(self.w.status(self.tid)['publications_need_recheck']), 1)
         self.assertIn('Synthetic contradictory observation', Path(self.w.brief(self.tid)['brief']).read_text())
+
+
+class LabelTest(unittest.TestCase):
+    def test_public_reference_uses_label(self):
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        w = Workspace(Path(temp.name) / 'private')
+        tid = demo.populate(w)
+        source = Path(temp.name) / 'public-note.md'
+        source.write_text('Public research note with verifiable facts.')
+        w.ingest('public-note', path=source, public='https://example.org/note/',
+                 label='公开研究笔记（示例）')
+        topic, _ = w.load(tid)
+        topic['sources'].append('public-note')
+        topic['claims'][0]['evidence'].append(
+            {'source': 'public-note', 'quote': 'Public research note with verifiable facts.'})
+        write_json(w.root / 'topics' / tid / 'topic.json', topic)
+        build = Path(w.build(tid)['build'])
+        text = (build / 'site.md').read_text(encoding='utf-8')
+        self.assertIn('[公开研究笔记（示例）](https://example.org/note/)', text)
+        self.assertNotIn('[public-note]', text)

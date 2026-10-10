@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1
+
+- Optional `--label` on `ingest` (or a `label` field in sync configs): a reader-facing name used for public reference links in built articles instead of the internal source ID.
+- Renderer version 4: adding or changing a label invalidates earlier reviews via the fingerprint, as before.
+
 ## 0.2.0
 
 - Select one or more publication channels per topic; keep unselected drafts private. Existing topics default to all three channels.

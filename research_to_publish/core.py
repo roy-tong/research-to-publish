@@ -10,7 +10,7 @@ from urllib.parse import urlparse
 
 CHANNELS = ('site', 'wechat', 'xiaohongshu')
 VERSION = 1
-RENDER_VERSION = 3
+RENDER_VERSION = 4
 
 
 def now():
@@ -118,11 +118,13 @@ class Workspace:
         return read_json(self.root / 'sources' / (slug(sid) + '.json'))
 
     def ingest(self, sid, path=None, repo=None, ref=None, github_path=None, chatgpt=False,
-               conversation_id=None, public=None):
+               conversation_id=None, public=None, label=None):
         self.require()
         slug(sid)
         if public:
             public_url(public)
+        if label:
+            nonempty(label, 'label')
         if repo:
             if not re.fullmatch(r'[\w.-]+/[\w.-]+', repo) or not re.fullmatch(r'[0-9a-f]{40}', ref or ''):
                 raise ValueError('GitHub requires owner/repo and a full immutable 40-character commit SHA')
@@ -151,8 +153,8 @@ class Workspace:
         dest = self.root / 'sources' / (sid + '.json')
         previous = read_json(dest) if dest.exists() else None
         record = {'id': sid, 'sha256': sha, 'origin': origin, 'public_url': public,
-                  'imported_at': now(), 'snapshot': 'sources/' + sid + '/' + sha + '.txt'}
-        if previous and all(previous.get(k) == record.get(k) for k in ('sha256', 'origin', 'public_url')):
+                  'label': label, 'imported_at': now(), 'snapshot': 'sources/' + sid + '/' + sha + '.txt'}
+        if previous and all(previous.get(k) == record.get(k) for k in ('sha256', 'origin', 'public_url', 'label')):
             return previous
         snapshot = self.root / record['snapshot']
         snapshot.parent.mkdir(parents=True, exist_ok=True)
@@ -333,7 +335,7 @@ class Workspace:
                         if sid not in refs:
                             refs.append(sid)
                 lineage.append({'channel': channel, 'section': n, 'claims': sec['claims']})
-            public_refs = [(sid, sources[sid]['public_url']) for sid in refs if sources[sid].get('public_url')]
+            public_refs = [(sources[sid].get('label') or sid, sources[sid]['public_url']) for sid in refs if sources[sid].get('public_url')]
             body = '# ' + item['title'] + '\n\n' + item.get('summary', item.get('caption', '')) + '\n\n'
             body += '\n\n'.join('## ' + s['heading'] + '\n\n' + s['body'] for s in sections)
             if public_refs:
