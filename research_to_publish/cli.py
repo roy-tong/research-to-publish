@@ -9,6 +9,13 @@ def main():
     p.add_argument('--workspace', required=True, help='Private data directory, outside the public code repository')
     sub = p.add_subparsers(dest='command', required=True)
     sub.add_parser('init')
+    for command in ('catalog-check', 'catalog-build', 'catalog-feedback'):
+        cp = sub.add_parser(command)
+        cp.add_argument('--file', required=True, help='Private casebook JSON')
+        if command != 'catalog-check':
+            cp.add_argument('--to', required=True, help='New output path; never overwrite')
+        if command == 'catalog-feedback':
+            cp.add_argument('--feedback', required=True, help='Export from review HTML')
     sub.add_parser('sync').add_argument('--config', required=True)
     ingest = sub.add_parser('ingest')
     ingest.add_argument('id')
@@ -61,7 +68,15 @@ def main():
     args = p.parse_args()
     w = Workspace(args.workspace)
     try:
-        if args.command in ('route', 'feedback-add', 'feedback-resolve', 'impact'):
+        if args.command.startswith('catalog-'):
+            from . import catalog
+            if args.command == 'catalog-check':
+                result = catalog.check(args.file)
+            elif args.command == 'catalog-build':
+                result = catalog.build(args.file, args.to)
+            else:
+                result = catalog.import_feedback(args.file, args.feedback, args.to)
+        elif args.command in ('route', 'feedback-add', 'feedback-resolve', 'impact'):
             from .feedback import add, resolve, impact, route
             if args.command == 'route':
                 result = route(w, args.id, args.channels, args.reason)

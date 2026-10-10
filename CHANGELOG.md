@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Add private casebooks for broad case discovery, article drafts, pitches and channel plans.
+- Render standalone HTML with filters, per-entry review notes and downloadable feedback.
+- Bind imported feedback to the complete catalog revision; reject stale reviews and refuse receipt overwrites. Editorial selection never grants publication approval.
+- Validate source references and article sections; escape supplied text and restrict public source URLs. These checks do not establish factual accuracy or article quality.
+- Add six tests; the full suite now contains 34 tests.
+
 ## 0.2.1
 
 - Optional `--label` on `ingest` (or a `label` field in sync configs): a reader-facing name used for public reference links in built articles instead of the internal source ID.

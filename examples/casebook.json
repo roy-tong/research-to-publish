@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "title": "Synthetic casebook",
+  "intro": "Synthetic only",
+  "sources": [
+    {
+      "id": "source-one",
+      "label": "Synthetic official docs",
+      "url": "https://example.org/docs",
+      "note": "Synthetic mechanism, not a customer claim",
+      "checked_at": "2026-01-01"
+    }
+  ],
+  "entries": [
+    {
+      "id": "case-one",
+      "kind": "case",
+      "group": "Test",
+      "stage": "Initial",
+      "title": "A product",
+      "question": "Who pays?",
+      "thesis": "A test interpretation",
+      "detail": "How it works",
+      "evidence": "Official docs only",
+      "edge": "No retention data",
+      "connection": "Related research",
+      "next_step": "Check a real deployment",
+      "source_ids": [
+        "source-one"
+      ]
+    }
+  ]
+}

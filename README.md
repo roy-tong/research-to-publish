@@ -40,6 +40,8 @@ flowchart LR
 
 ## 五分钟跑通
 
+选题尚未确定时，可先用[案例与文章审阅页](docs/casebook.md)整理外部案例、文章成稿和渠道方案。`catalog-check` 检查结构，`catalog-build` 生成可筛选、逐项批注的独立 HTML，`catalog-feedback` 导入绑定稿件版本的反馈。选题“保留”不代表批准发布；真实材料仍放在私有工作台。
+
 在仓库根目录运行，无需安装：
 
 ```bash
