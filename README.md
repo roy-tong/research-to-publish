@@ -13,8 +13,9 @@
 | 深度研究（核心上游） | [SURE / user-demand-research](https://github.com/roy-tong/user-demand-research) | 证据分级报告作为来源快照导入（`ingest case`） |
 | 媒体证据 | [bilibili-transcript-pipeline](https://github.com/roy-tong/bilibili-transcript-pipeline) | 逐字稿按来源导入；访谈走 SURE interview-kit 消化 |
 | 信源监测（可选） | [iRead](https://github.com/roy-tong/iRead) | 周报/信源清单作为选题输入导入；资源占用大、按需启用 |
+| 标的库（可选） | 开源项目研究对象库（本地资产，见 [agent-tool-center](https://github.com/roy-tong/agent-tool-center) 研究线） | 案例「为什么值得研究/机会与内容角度」字段直接作选题素材 |
 | 内容生产 | 本仓库 | 来源快照 → 稿件 → 审核 → 三平台交付包 |
-| 审稿 gate | my-voice（[agent-tool-center/skills/my-voice](https://github.com/roy-tong/agent-tool-center/tree/main/skills/my-voice)） | `review` 前过一遍表达质量底线（去机翻/去AI味/去自造词） |
+| 审稿 gate（两道） | my-voice（[agent-tool-center/skills/my-voice](https://github.com/roy-tong/agent-tool-center/tree/main/skills/my-voice)）+ 对标质量审核 | `review` 前依次过：① 表达底线（去机翻/去AI味/去自造词）② 对标审核（对标博主语感 + 六病因诊断 + 深度配方 + 画像阈值质检；资产在本地内容管线工作台） |
 | 账号运营 | [marketing-ops-automation](https://github.com/roy-tong/marketing-ops-automation) | 交付包与文章链接进其发布队列，X / Email 等渠道执行（X 渠道 vendor 自已归档的 x-ops-automation） |
 
 各工具独立可用；接线是数据契约（来源快照、交付包、队列），不做进程级耦合。
@@ -84,7 +85,7 @@ r2p --workspace /work/editorial brief my-research
 ```bash
 r2p --workspace /work/editorial validate my-research
 r2p --workspace /work/editorial build my-research
-# 检查完预览、事实、来源与公开范围后记录；正式 review 前稿件先过 my-voice 审稿 gate
+# 检查完预览、事实、来源与公开范围后记录；正式 review 前稿件先过两道审稿 gate（my-voice 表达底线 + 对标质量审核）
 r2p --workspace /work/editorial review my-research --reviewer '实际复核者' --note '说明检查范围'
 r2p --workspace /work/editorial export my-research --to /work/releases/my-research-v1 --site-repo /work/existing-jekyll-site
 ```
