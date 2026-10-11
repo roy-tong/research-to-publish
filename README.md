@@ -55,6 +55,8 @@ flowchart LR
 
 ## 五分钟跑通
 
+选题尚未确定时，可先用[案例与文章审阅页](docs/casebook.md)整理外部案例、文章成稿和渠道方案。`catalog-check` 检查结构，`catalog-build` 生成可筛选、逐项批注的独立 HTML，`catalog-feedback` 导入绑定稿件版本的反馈。选题“保留”不代表批准发布；真实材料仍放在私有工作台。
+
 在仓库根目录运行，无需安装：
 
 ```bash
@@ -68,6 +70,8 @@ python3 -m unittest discover -s tests -v
 也可 `python3 -m pip install -e .`，之后用 `r2p` 代替 `python3 -m research_to_publish`。
 
 ## 真实生产
+
+本地项目研究同时纳入终稿、过程版本、决策与审计记录、选定原始记录。按[过程材料回溯协议](docs/process-research.md)追踪判断变化与证据来历；文件索引不等于全文阅读，旧版意见不自动作为当前结论。
 
 代码仓库与私有工作台使用不同目录。以下路径、来源 ID 和 commit 是占位，使用前替换：
 
