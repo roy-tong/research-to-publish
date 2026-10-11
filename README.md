@@ -4,7 +4,20 @@
 
 把本地项目、GitHub 研究与 ChatGPT 会话，转成有来源、有版本、可复核的网站文章与社媒交付包。
 
-这是**内容生产项目**。作者／AI agent 完成研究整理与写作；CLI 管理采集、检查、构建、审核失效与发布回执。Python 3.9+，运行时零第三方依赖，无需模型 API key。
+这是**内容生产项目**，也是「研究 → 文章 → 公众号/小红书交付 → 账号运营」全链路的**终端应用主体**。作者／AI agent 完成研究整理与写作；CLI 管理采集、检查、构建、审核失效与发布回执。Python 3.9+，运行时零第三方依赖，无需模型 API key。
+
+### 全链路生态位
+
+| 阶段 | 工具 | 与本仓库的接线 |
+|---|---|---|
+| 深度研究（核心上游） | [SURE / user-demand-research](https://github.com/roy-tong/user-demand-research) | 证据分级报告作为来源快照导入（`ingest case`） |
+| 媒体证据 | [bilibili-transcript-pipeline](https://github.com/roy-tong/bilibili-transcript-pipeline) | 逐字稿按来源导入；访谈走 SURE interview-kit 消化 |
+| 信源监测（可选） | [iRead](https://github.com/roy-tong/iRead) | 周报/信源清单作为选题输入导入；资源占用大、按需启用 |
+| 内容生产 | 本仓库 | 来源快照 → 稿件 → 审核 → 三平台交付包 |
+| 审稿 gate | my-voice（[agent-tool-center/skills/my-voice](https://github.com/roy-tong/agent-tool-center/tree/main/skills/my-voice)） | `review` 前过一遍表达质量底线（去机翻/去AI味/去自造词） |
+| 账号运营 | [marketing-ops-automation](https://github.com/roy-tong/marketing-ops-automation) | 交付包与文章链接进其发布队列，X / Email 等渠道执行（X 渠道 vendor 自已归档的 x-ops-automation） |
+
+各工具独立可用；接线是数据契约（来源快照、交付包、队列），不做进程级耦合。
 
 ```mermaid
 flowchart LR
@@ -20,6 +33,7 @@ flowchart LR
   H --> J
   I --> K[发布回执与修订]
   J --> K
+  K --> L["账号运营（marketing-ops-automation）"]
 ```
 
 ## 已实现
@@ -70,7 +84,7 @@ r2p --workspace /work/editorial brief my-research
 ```bash
 r2p --workspace /work/editorial validate my-research
 r2p --workspace /work/editorial build my-research
-# 实际检查完预览、事实、来源与公开范围后记录
+# 检查完预览、事实、来源与公开范围后记录；正式 review 前稿件先过 my-voice 审稿 gate
 r2p --workspace /work/editorial review my-research --reviewer '实际复核者' --note '说明检查范围'
 r2p --workspace /work/editorial export my-research --to /work/releases/my-research-v1 --site-repo /work/existing-jekyll-site
 ```
